@@ -1,14 +1,14 @@
-import express, { Request, Response, ErrorRequestHandler } from 'express';
-import path from 'path';
-import dotenv from 'dotenv';
 import cors from 'cors';
+import express, { ErrorRequestHandler, Request, Response } from 'express';
+import path from 'path';
+import { conectarBanco } from './instances/mysql';
 import apiRoutes from './routes/routes';
 
-dotenv.config();
 
 const server = express();
 
 server.use(cors());
+conectarBanco(); 
 
 server.use(express.static(path.join(__dirname, '../public')));
 
@@ -31,7 +31,7 @@ const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
 server.use(errorHandler);
 
 // Iniciar o servidor e exibir a porta no console
-const port = process.env.PORT || 3000; // Defina uma porta padrão se não estiver no .env
+const port = process.env.PORT || 3360; // Defina uma porta padrão se não estiver no .env
 server.listen(port, () => {
     console.log(`Servidor rodando na porta ${port}`);
 });
